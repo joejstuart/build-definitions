@@ -17,7 +17,7 @@ CONFTEST_NAMESPACE=${CONFTEST_NAMESPACE:-main}
 
 conftest test $INPUT_FILE \
   --data $DATA_DIR \
-  --policy $POLICY_DIR/policies \
+  --policy $POLICY_DIR/policy \
   --namespace $CONFTEST_NAMESPACE \
   --output json \
   --no-fail
