@@ -163,53 +163,76 @@ spec:
         workspaces:
           - name: source
             workspace: workspace
-
-
       - name: get-tasks-to-evaluate
         runAfter:
           - fetch-repository        
         taskSpec:
           results:
           - description: Directory containing the build tasks
-            name: build_tasks_dir
+            name: build_tasks-ec
           - description: Directory containing all tasks
-            name: all_tasks_dir
+            name: all_tasks-ec
           steps:
-            - name: gather-tasks
-              image: registry.redhat.io/openshift4/ose-tools-rhel8:v4.12
-              workingDir: $(workspaces.source.path)
-              script: |
-                #!/usr/bin/env bash
-                source .tekton/scripts/ec-checks.sh
-                $(build_tasks_dir build_tasks)
-                $(all_tasks_dir all_tasks)
+          - name: gather-tasks
+            image: quay.io/jstuart/fedora-kustomize:latest
+            workingDir: $(workspaces.source.path)
+            script: |
+              #!/usr/bin/env bash
+              source hack/ec-checks.sh
+              echo -n $(build_tasks_dir) > $(results.build_tasks-ec.path)
+              echo -n $(all_tasks_dir) > $(results.all_tasks-ec.path)
           workspaces:
             - name: source
         workspaces:
           - name: source
             workspace: workspace
-
-
-    - name: evaluate tasks
+      - name: evaluate-tasks
+        params:
+          - name: all-tasks-definitions
+            value: $(tasks.get-tasks-to-evaluate.results.all_tasks-ec)
+          - name: build-tasks-definitions
+            value: $(tasks.get-tasks-to-evaluate.results.build_tasks-ec)
         runAfter:
           - get-tasks-to-evaluate        
         taskSpec:
+          params:
+          - name: all-tasks-definitions
+            type: string
+          - name: build-tasks-definitions
+            type: string
           steps:
-            - name: validate
-              workingDir: "$(workspaces.output.path)"
+            - name: validate-all-tasks
+              workingDir: "$(workspaces.source.path)"
               image: quay.io/hacbs-contract/ec-cli:snapshot
               command: [ec]
               args:
                 - validate
                 - definition
                 - "--file"
-                - "all_tasks"
+                - "$(params.all-tasks-definitions)"
                 - "--policy"
                 - "git::https://github.com/hacbs-contract/ec-policies//policy/task"
                 - "--policy"
                 - "git::https://github.com/hacbs-contract/ec-policies//policy/lib"
                 - "--data"
                 - "git::https://github.com/hacbs-contract/ec-policies//data"
+                - "--strict"
+            - name: validate-build-tasks
+              workingDir: "$(workspaces.source.path)"
+              image: quay.io/hacbs-contract/ec-cli:snapshot
+              command: [ec]
+              args:
+                - validate
+                - definition
+                - "--file"
+                - "$(params.build-tasks-definitions)"
+                - "--policy"
+                - "git::https://github.com/hacbs-contract/ec-policies//policy/build_task"
+                - "--policy"
+                - "git::https://github.com/hacbs-contract/ec-policies//policy/lib"
+                - "--data"
+                - "git::https://github.com/hacbs-contract/ec-policies//data"
+                - "--strict"
           workspaces:
             - name: source
         workspaces:
