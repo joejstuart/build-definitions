@@ -174,7 +174,7 @@ spec:
             name: all_tasks-ec
           steps:
           - name: gather-tasks
-            image: quay.io/jstuart/fedora-kustomize:latest
+            image: registry.redhat.io/openshift4/ose-tools-rhel8:v4.12
             workingDir: $(workspaces.source.path)
             script: |
               #!/usr/bin/env bash
