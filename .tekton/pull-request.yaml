@@ -165,7 +165,7 @@ spec:
             workspace: workspace
       - name: get-tasks-to-evaluate
         runAfter:
-          - fetch-repository        
+          - fetch-repository
         taskSpec:
           results:
           - description: Directory containing the build tasks
@@ -193,7 +193,7 @@ spec:
           - name: build-tasks-definitions
             value: $(tasks.get-tasks-to-evaluate.results.build_tasks-ec)
         runAfter:
-          - get-tasks-to-evaluate        
+          - get-tasks-to-evaluate
         taskSpec:
           params:
           - name: all-tasks-definitions
