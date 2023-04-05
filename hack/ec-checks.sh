@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -u -o pipefail
+set -x -e -u -o pipefail
 
 # extract the build container task name
 function build_container_task_name {
