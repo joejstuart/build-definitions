@@ -25,10 +25,13 @@ function copy_all_task_versions {
 # find all BUILD tasks in a tekton catalog layout. 
 # copy them to a temp directory with the format version_task.yaml
 function build_tasks_dir {
-  local tasks_dir=$(mktemp -d -p .)
+  if [[ ! -d $1 ]]; then
+    mkdir $1
+  fi
+  local tasks_dir=$1
   # where to store the generated pipelines after running kustomize
   local generated_pipelines_dir=$(mktemp -d)
-  oc kustomize --output $generated_pipelines_dir pipelines/
+  kustomize build --output $generated_pipelines_dir pipelines/
   for f in "${generated_pipelines_dir}"/*.yaml; 
   do
     # find all tasks that are named "build-container" in each pipeline
@@ -44,7 +47,10 @@ function build_tasks_dir {
 # find all tasks in a tekton catalog layout. 
 # copy them to a temp directory with the format version_task.yaml
 function all_tasks_dir {
-  local tasks_dir=$(mktemp -d -p .)
+  if [[ ! -d $1 ]]; then
+    mkdir $1
+  fi
+  local tasks_dir=$1
   
   for task in task/*; do
     copy_all_task_versions "${task/*\//}" $tasks_dir
