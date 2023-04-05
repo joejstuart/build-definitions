@@ -41,7 +41,6 @@ function build_tasks_dir {
     fi
     copy_all_task_versions $name $tasks_dir
   done
-  echo $tasks_dir
 }
 
 # find all tasks in a tekton catalog layout. 
@@ -55,5 +54,4 @@ function all_tasks_dir {
   for task in task/*; do
     copy_all_task_versions "${task/*\//}" $tasks_dir
  done
- echo $tasks_dir
 }
