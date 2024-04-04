@@ -6,6 +6,7 @@
 # repository. Any pull request that modifies anything other than this comment in this file and is
 # not a sync from the ec-cli repository will be immediately closed. See
 # https://github.com/enterprise-contract/ec-cli/blob/main/tasks/verify-enterprise-contract/0.1/verify-enterprise-contract.yaml
+# update
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
