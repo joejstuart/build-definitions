@@ -13,7 +13,7 @@ spec:
     Creates and pushes a Tekton bundle containing the specified Tekton YAML files.
   params:
   - description: Reference of the image task will produce.
-    name:   
+    name: IMAGE
     type: string
   - default: .
     description: Path to the directory to use as context.
