@@ -13,7 +13,7 @@ spec:
     Creates and pushes a Tekton bundle containing the specified Tekton YAML files.
   params:
   - description: Reference of the image task will produce.
-    name: IMAGE
+    name:   
     type: string
   - default: .
     description: Path to the directory to use as context.
@@ -39,7 +39,7 @@ spec:
     - name: TASK_FILE
       value: tekton_task_files
   steps:
-  - image: quay.io/redhat-appstudio/hacbs-test:latest@sha256:cd4601a7d71ebd908046db7a9b7010611b8b372fe941664d5163c81250a1a1fc
+  - image: quay.io/redhat-appstudio/appstudio-utils:6c080bf440cd898d8473e2b80da35982820f5fcc
     name: modify-task-files
     env:
     - name: CONTEXT
