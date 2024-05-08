@@ -104,7 +104,7 @@ spec:
 
       if [[ -n "${STEPS_IMAGE}" ]]; then
         for f in "${FILES[@]}"; do
-          yq -i -oy '(.spec.steps[] | select(has("image")).image) = env.STEPS_IMAGE' "$f"
+          yq -i -oy '(.spec.steps[] | select(has("image")).image) = env(STEPS_IMAGE)' "$f"
         done
       fi
 
