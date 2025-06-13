@@ -10,19 +10,6 @@ metadata:
     build.appstudio.redhat.com/pipeline: "enterprise-contract"
 spec:
   params:
-    - name: SNAPSHOT
-      type: string
-      description: |
-        Spec section of an ApplicationSnapshot resource. Not all fields of the
-        resource are required. A minimal example:
-          {
-            "components": [
-              {
-                "containerImage": "quay.io/example/repo:latest"
-              }
-            ]
-          }
-        Each "containerImage" in the "components" array is validated.
     - name: SNAPSHOT_FILENAME
       type: string
       description: Name of the file containing the snapshot data
