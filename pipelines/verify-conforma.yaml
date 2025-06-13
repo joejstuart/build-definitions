@@ -5,9 +5,9 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: enterprise-contract
+  name: verify-conforma
   labels:
-    build.appstudio.redhat.com/pipeline: "enterprise-contract"
+    build.appstudio.redhat.com/pipeline: "conforma"
 spec:
   params:
     - name: SNAPSHOT_FILENAME
@@ -89,7 +89,7 @@ spec:
           - name: url
             value: https://github.com/enterprise-contract/ec-cli
           - name: revision
-            value: "$(params.verify_ec_task_git_revision)"
+            value: "main"
           - name: pathInRepo
             value: "tasks/verify-conforma-konflux-ta/0.1/verify-conforma-konflux-ta.yaml"
       params:
